@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyAdminMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyAdmin" >
+    <result column="a_id" property="aId" jdbcType="INTEGER" />
+    <result column="a_username" property="aUsername" jdbcType="VARCHAR" />
+    <result column="a_password" property="aPassword" jdbcType="VARCHAR" />
+    <result column="a_name" property="aName" jdbcType="VARCHAR" />
+    <result column="a_level" property="aLevel" jdbcType="INTEGER" />
+    <result column="a_lasttime" property="aLasttime" jdbcType="TIMESTAMP" />
+    <result column="a_mark" property="aMark" jdbcType="VARCHAR" />
+    <result column="a_one" property="aOne" jdbcType="VARCHAR" />
+    <result column="a_two" property="aTwo" jdbcType="VARCHAR" />
+    <result column="a_three" property="aThree" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    a_id, a_username, a_password, a_name, a_level, a_lasttime, a_mark, a_one, a_two, 
+    a_three
+  </sql>
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from toy_admin
+  </select>
+  <select id="selectname"   resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from toy_admin
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_admin
+    where a_id=#{aId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyAdmin" >
+    insert into toy_admin (a_id, a_username, a_password, 
+      a_name, a_level, a_lasttime, 
+      a_mark, a_one, a_two, 
+      a_three)
+    values (#{aId,jdbcType=INTEGER}, #{aUsername,jdbcType=VARCHAR}, #{aPassword,jdbcType=VARCHAR}, 
+      #{aName,jdbcType=VARCHAR}, #{aLevel,jdbcType=INTEGER}, #{aLasttime,jdbcType=TIMESTAMP}, 
+      #{aMark,jdbcType=VARCHAR}, #{aOne,jdbcType=VARCHAR}, #{aTwo,jdbcType=VARCHAR}, 
+      #{aThree,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyAdmin" >
+    update toy_admin
+    set a_id = #{aId,jdbcType=INTEGER},
+      a_username = #{aUsername,jdbcType=VARCHAR},
+      a_password = #{aPassword,jdbcType=VARCHAR},
+      a_name = #{aName,jdbcType=VARCHAR},
+      a_level = #{aLevel,jdbcType=INTEGER},
+      a_lasttime = #{aLasttime,jdbcType=TIMESTAMP},
+      a_mark = #{aMark,jdbcType=VARCHAR},
+      a_one = #{aOne,jdbcType=VARCHAR},
+      a_two = #{aTwo,jdbcType=VARCHAR},
+      a_three = #{aThree,jdbcType=VARCHAR}
+      where a_id=#{aId,jdbcType=INTEGER}
+  </update>
+  <select id="selectusername" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from toy_admin
+    where  a_username = #{aUsername,jdbcType=VARCHAR}
+  </select>
+</mapper>

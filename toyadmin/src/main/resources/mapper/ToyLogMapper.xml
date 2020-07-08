@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyLogMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyLog" >
+    <id column="l_id" property="lId" jdbcType="INTEGER" />
+    <result column="l_content" property="lContent" jdbcType="VARCHAR" />
+    <result column="l_mark" property="lMark" jdbcType="VARCHAR" />
+    <result column="l_one" property="lOne" jdbcType="VARCHAR" />
+    <result column="l_two" property="lTwo" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.admin.admin.pojo.ToyLogWithBLOBs" extends="BaseResultMap" >
+    <result column="l_oldvalue" property="lOldvalue" jdbcType="LONGVARCHAR" />
+    <result column="l_newvalue" property="lNewvalue" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    l_id, l_content, l_mark, l_one, l_two
+  </sql>
+  <sql id="Blob_Column_List" >
+    l_oldvalue, l_newvalue
+  </sql>
+  <select id="selectByExample" resultMap="ResultMapWithBLOBs" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from toy_log
+    order by l_id desc
+  </select>
+  <select id="count" resultType="int" >
+    select
+count(1)
+    from toy_log
+    order by l_id desc
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from toy_log
+    where l_id = #{lId,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyLogWithBLOBs" >
+    insert into toy_log (l_id, l_content, l_mark, 
+      l_one, l_two, l_oldvalue, 
+      l_newvalue)
+    values (#{lId,jdbcType=INTEGER}, #{lContent,jdbcType=VARCHAR}, #{lMark,jdbcType=VARCHAR}, 
+      #{lOne,jdbcType=VARCHAR}, #{lTwo,jdbcType=VARCHAR}, #{lOldvalue,jdbcType=LONGVARCHAR}, 
+      #{lNewvalue,jdbcType=LONGVARCHAR})
+  </insert>
+<delete id="del" parameterType="java.lang.Integer">
+
+  delete  from toy_log where l_id=(#{lId,jdbcType=INTEGER}
+</delete>
+</mapper>

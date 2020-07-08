@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >举报管理
+                                </div>
+
+                                <div>
+
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>id</th>
+                                        <th>举报人</th>
+                                        <th>真实姓名</th>
+                                        <th>创意链接</th>
+                                        <th>需求链接</th>
+                                        <th>举报类型</th>
+                                        <th>举报描述</th>
+                                        <th>被举报人</th>
+                                        <th th:if="${session.USER.aLevel} eq 1">处理人</th>
+                                        <th>结果</th>
+                                        <th>是否处理</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${SHOWREPORT}">
+                                        <td th:text="${a.reId}">
+                                        </td>
+                                        <td th:text="${a.username}" class="text-danger"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.truename}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                       <td  > <a th:href="@{'http://localhost:8500/getContent?ciId='+${a.reIdeaid}}" th:text="${a.reIdeaid}"> <i
+                                                class="mdi mdi-arrow-up"></i></a></td>
+                                        <td >  <a th:href="@{'http://localhost:8500/getNeed?nId='+${a.reUrsid}}" th:text="${a.reUrsid}"> <i
+                                                class="mdi mdi-arrow-up"></i></a></td>
+                                        <td th:text="${a.reType}" > 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.reTypetwo}"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:100px"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+
+                                        <td th:text="${a.Busername}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:if="${session.USER.aLevel} eq 1" th:text="${a.toyAdmin.aName}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td >
+                                            <div th:if="${a.reIsitvalid} eq 1" th:text="成功" class="text-danger"></div>
+                                            <div th:if="${a.reIsitvalid} eq 2" th:text="失败"></div>
+                                            <div th:if="${a.reIsitvalid} eq 3" th:text="未处理"></div>
+                                        </td>
+                                        <td >
+                                             <div th:if="${a.reIf} eq 1" th:text="未处理" class="text-danger"></div>
+                                             <div th:if="${a.reIf} eq 2"  th:text="已处理"></div>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{'/findbyreportid?reId='+${a.reId}}"  th:id="${a.reId}"> <button  type="button" class="btn btn-gradient-warning btn-sm" th:id="${a.reId}">查看</button></a>
+
+                                            <button th:if="${a.reIf} eq 1" type="button" class="btn btn-gradient-danger btn-sm" data-toggle="modal"data-target="#changeSource"
+                                                    th:id="${a.reId}" th:userid="${a.userid}" th:buserid="${a.buserid}" onclick="updatereport(this)">处理举报</button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px;text-decoration: none;" href="/showreport?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px;text-decoration: none;" th:href="@{'/showreport?pageNum='+${pageNum-1}}">上一页</a>
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showreport?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;text-decoration: none;" th:href="@{'/showreport?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">处理举报：</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/reportupdate"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       id="reId" name="reId">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       id="userid" name="userid">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                        id="buserid" name="buserid">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="reIsitvalid">
+                                            <label class="col-sm-3 col-form-label">举报是否成功</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="reIsitvalid" value="1" checked="" th:text="成功">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="reIsitvalid" value="2" th:text="失败">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reResult" class="col-xs-3 control-label">处理结果：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reResult" name="reResult">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reOne" class="col-xs-3 control-label">处理结果：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reOne" name="reOne">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reReason" class="col-xs-3 control-label">处理原因：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reReason" name="reReason">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:replace="adHead::password" ></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:hh="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >管理员管理
+                                    <button style="float: right" class="btn btn-gradient-info" data-toggle="modal" data-target="#addSource">添加管理员</button>
+                                </div>
+                                <div>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>账号名</th>
+                                        <th>姓名</th>
+                                        <th>等级</th>
+                                        <th>注册时间</th>
+                                        <th>备注</th>
+
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${SADMIN}" th:if="${a.aLevel} eq 2">
+
+                                        <td  th:text="${a.aId}" class="text-danger">
+                                        </td>
+                                        <td th:text="${a.aUsername}"></td>
+                                        <td th:text="${a.aName}"></td>
+
+                                        <td th:if="${a.aLevel} eq 2" class="text-danger"> 二级管理员 </td>
+                                        <td th:text="${#dates.format(a.aLasttime,'yyyy-MM-dd')}" >
+                                            <i class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.aMark}">  <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource" th:id="${a.aId}"
+                                                    th:name="${a.aName}"   th:data-name="${a.aUsername}" th:data-mark="${a.aMark}" th:data-password="${a.aPassword}"
+                                                    onclick="updateadmin(this)">更改</button>
+                                            <button type="button" class="btn btn-gradient-danger btn-sm" data-toggle="modal"
+                                                    data-target="#deleteSource" th:id="${a.aId}" onclick="deletea(this)">删除</button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 模态框 -->
+                <div class="modal fade" id="deleteSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">确定要删除该？删除后不可恢复！</div>
+                            </div>
+                            <form action="/deleteadminuser" method="post">
+                                <input type="hidden" id="dele" name="aId" value="">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-white"
+                                            data-dismiss="modal">取 消</button>
+                                    <button type="submit" class="btn btn-xs btn-danger">确定</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- update -->
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">修改信息2</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/updateadmin"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="aId" id="aId">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aUsername1" class="col-xs-3 control-label">账户：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aUsername1" name="aUsername">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aName1" class="col-xs-3 control-label">姓名：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aName1" name="aName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aPassword1" class="col-xs-3 control-label">密码：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="password" class="form-control input-sm duiqi"
+                                                       id="aPassword1" name="aPassword" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aMark1" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aMark1" name="aMark" >
+                                                <!--<input type="text" class="form-control input-sm duiqi"-->
+                                                <!--id="aMark" name="aMark" value="">-->
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- updatepassword  -->
+                <div th:replace="adHead::password" ></div>
+                <!-- add -->
+                <div class="modal fade" id="addSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">添加管理员</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/adminadd"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="aId"  id="rsup">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aUsername" class="col-xs-3 control-label">账户：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aUsername" name="aUsername">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aPassword" class="col-xs-3 control-label">密码：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aPassword" name="aPassword">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="aMark" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="aMark" name="aMark">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green">保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/vendors/js/vendor.bundle.base.js"></script>
+<script src="/vendors/js/vendor.bundle.addons.js"></script>
+<script src="/js/off-canvas.js"></script>
+<script src="/js/misc.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

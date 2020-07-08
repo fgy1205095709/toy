@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyUserMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyUser" >
+    <id column="u_id" property="uId" jdbcType="INTEGER" />
+    <result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+    <result column="u_username" property="uUsername" jdbcType="VARCHAR" />
+    <result column="u_password" property="uPassword" jdbcType="VARCHAR" />
+    <result column="u_name" property="uName" jdbcType="VARCHAR" />
+    <result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+    <result column="u_truecard" property="uTruecard" jdbcType="INTEGER" />
+    <result column="u_sex" property="uSex" jdbcType="CHAR" />
+    <result column="u_age" property="uAge" jdbcType="INTEGER" />
+    <result column="u_address" property="uAddress" jdbcType="VARCHAR" />
+    <result column="u_localaddress" property="uLocaladdress" jdbcType="VARCHAR" />
+    <result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+    <result column="u_signature" property="uSignature" jdbcType="VARCHAR" />
+    <result column="u_describe" property="uDescribe" jdbcType="VARCHAR" />
+    <result column="u_head" property="uHead" jdbcType="VARCHAR" />
+
+    <result column="u_focusclass" property="uFocusclass" jdbcType="VARCHAR" />
+    <result column="u_createtime" property="uCreatetime" jdbcType="TIMESTAMP" />
+    <result column="u_lasttime" property="uLasttime" jdbcType="TIMESTAMP" />
+    <result column="u_thistime" property="uThistime" jdbcType="TIMESTAMP" />
+    <result column="u_ifdesigner" property="uIfdesigner" jdbcType="INTEGER" />
+    <result column="u_report" property="uReport" jdbcType="INTEGER" />
+    <result column="u_state" property="uState" jdbcType="VARCHAR" />
+    <result column="u_mark" property="uMark" jdbcType="VARCHAR" />
+    <result column="u_one" property="uOne" jdbcType="VARCHAR" />
+    <result column="u_two" property="uTwo" jdbcType="VARCHAR" />
+    <result column="u_three" property="uThree" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    u_id, u_phone, u_username, u_password,u_name, u_truename, u_truecard, u_sex, u_age, u_address,
+    u_localaddress, u_email, u_signature, u_describe, u_focusclass, u_createtime, u_lasttime, 
+    u_thistime, u_ifdesigner, u_report, u_state, u_mark, u_one, u_two, u_three
+  </sql>
+  <sql id="Blob_Column_List" >
+    u_head
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from toy_user
+  </select>
+  <select id="countAll" resultType="java.lang.Integer" >
+    select count(*)
+    from toy_user
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from toy_user
+    where u_id = #{uId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_user
+    where u_id = #{uId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyUser" >
+    insert into toy_user (u_id, u_phone, u_username,
+      u_password, u_name,u_truename, u_truecard,
+      u_sex, u_age, u_address, 
+      u_localaddress, u_email, u_signature, 
+      u_describe, u_focusclass, u_createtime, 
+      u_lasttime, u_thistime, u_ifdesigner, 
+      u_report, u_state, u_mark, 
+      u_one, u_two, u_three, 
+      u_head)
+    values (#{uId,jdbcType=INTEGER}, #{uPhone,jdbcType=VARCHAR}, #{uUsername,jdbcType=VARCHAR}, #{uName,jdbcType=VARCHAR},
+      #{uPassword,jdbcType=VARCHAR}, #{uTruename,jdbcType=VARCHAR}, #{uTruecard,jdbcType=INTEGER}, 
+      #{uSex,jdbcType=CHAR}, #{uAge,jdbcType=INTEGER}, #{uAddress,jdbcType=VARCHAR}, 
+      #{uLocaladdress,jdbcType=VARCHAR}, #{uEmail,jdbcType=VARCHAR}, #{uSignature,jdbcType=VARCHAR}, 
+      #{uDescribe,jdbcType=VARCHAR}, #{uFocusclass,jdbcType=VARCHAR}, #{uCreatetime,jdbcType=TIMESTAMP}, 
+      #{uLasttime,jdbcType=TIMESTAMP}, #{uThistime,jdbcType=TIMESTAMP}, #{uIfdesigner,jdbcType=INTEGER}, 
+      #{uReport,jdbcType=INTEGER}, #{uState,jdbcType=VARCHAR}, #{uMark,jdbcType=VARCHAR}, 
+      #{uOne,jdbcType=VARCHAR}, #{uTwo,jdbcType=VARCHAR}, #{uThree,jdbcType=VARCHAR}, 
+      #{uHead,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyUser" >
+    update toy_user
+    set
+      u_username = #{uUsername,jdbcType=VARCHAR},
+      u_name = #{uName,jdbcType=VARCHAR},
+      u_signature = #{uSignature,jdbcType=VARCHAR},
+      u_describe = #{uDescribe,jdbcType=VARCHAR},
+      u_state = #{uState,jdbcType=VARCHAR},
+      u_mark = #{uMark,jdbcType=VARCHAR}
+    where u_id = #{uId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

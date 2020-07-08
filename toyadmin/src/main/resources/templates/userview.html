@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/css.css">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head" ></div>
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <header>
+                                    <img style="border-radius: 50%; width: 80px;float: left;margin: 20px;"th:src="${FINDUSERID.uHead}">
+                                    <h1>账号:</h1>
+                                    <h1 th:utext="${FINDUSERID.uId}"></h1>
+                                    <h1>的资料</h1>
+
+                                </header>
+
+                                <div id="content">
+                                    <section>
+                                        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                            <tr >
+                                                <td align="right">手机号：</td>
+                                                <td align="left"><span class="title" th:text="${FINDUSERID.uPhone}"></span></td>
+                                            </tr>
+
+                                            <tr style="margin-top: 5px;">
+                                                <td align="right">姓名：</td>
+                                                <td align="center"><span id="div" th:utext="${FINDUSERID.uName}"></span></td>
+                                            </tr>
+                                            <tr style="margin-top: 5px">
+                                                <td align="right">性别：</td>
+                                                <td align="center"><span id="div" th:utext="${FINDUSERID.uSex}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">年龄：</td>
+                                                <td align="left"><span id="div" th:utext="${FINDUSERID.uAge}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">住址：</td>
+                                                <td align="left"><span id="div" th:utext="${FINDUSERID.uAddress}"></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">个人描述：</td>
+                                                <td align="left"><span id="div" th:utext="${FINDUSERID.uDescribe}" ></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">注册时间：</td>
+                                                <td align="left"><span th:text="${#dates.format(FINDUSERID.uCreatetime,'yyyy-MM-dd')}" ></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">上次登陆时间：</td>
+                                                <td align="left"><span th:text="${#dates.format(FINDUSERID.uLasttime,'yyyy-MM-dd')}" ></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="right">Email:</td>
+                                                <td align="left"><span id="div" th:utext="${FINDUSERID.uEmail}" ></span></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">状态：</td>
+                                                <td align="left"><span id="div" th:utext="${FINDUSERID.uState}" ></span></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> </td>
+                                            </tr>
+                                        </table>
+                                    </section>
+                                    <aside >
+                                        <ul >
+                                            <li><a>他的最新文章</a></li>
+                                            <li th:each="a: ${list}"><a th:href="@{'/ideafindid?ciId='+${a.ciId}}" th:id="${a.ciId}" th:text="${a.ciTitle}"></a> </li>
+
+                                        </ul>
+                                    </aside>
+                                </div>
+                                <button type="button" class="btn btn-gradient-warning btn-sm"><a href="#" onclick="javascript :history.back(-1);">返回</a></button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- updatepassword  -->
+                <div th:replace="adHead::password" ></div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jquery-1.3.2.js"></script>
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

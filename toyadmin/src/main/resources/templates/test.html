@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script src="/echarts/echarts.js"></script>
+<script src="/echarts/china.js"></script>
+<div id="main" style="width: 1280px;height:600px;"></div>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+    option = {
+        //backgroundColor: '#404a59',
+        title: {
+            text: 'ECharts地图',
+            left: 'center',
+            textStyle: {
+                color: '#404a49'
+            }
+        },
+        tooltip: {
+            trigger: 'item'
+        },
+        toolbox: {
+            show: true,
+            orient: 'vertical',
+            left: 'right',
+            top: 'center',
+            feature: {
+                dataView: {
+                    readOnly: false
+                },
+                restore: {},
+                saveAsImage: {}
+            }
+        },
+        geo: {
+            map: 'china',
+
+            label: {
+                emphasis: {
+                    show: false
+                }
+            },
+            roam: true,
+            itemStyle: {
+                normal: {
+                    areaColor: '#323c48',
+                    borderColor: '#111'
+                },
+                emphasis: {
+                    areaColor: '#2a333d'
+                }
+            }
+        }
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

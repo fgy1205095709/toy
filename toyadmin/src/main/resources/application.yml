@@ -1,0 +1,44 @@
+server:
+    port: 8999
+    address: localhost
+    tomcat:
+        uri-encoding: utf-8
+
+spring:
+    thymeleaf:
+     cache: false
+
+    datasource:
+        url: jdbc:mysql:///toy?characterEncoding=utf-8&serverTimezone=UTC
+        username: root
+        password: admin
+        driver-class-name: com.mysql.cj.jdbc.Driver
+    resources:
+        static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+    data:
+        solr:
+             host: http://localhost:8080/solr/collection1
+mybatis:
+    config-location: classpath:mapper/config/sqlMapConfig.xml
+    mapper-locations: classpath:mapper/*Mapper.xml
+    type-aliases-package: com.admin.admin.pojo
+
+pagehelper:
+    helper-dialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+logging:
+    config: logback.xml
+    level:
+        com.itcodai.course03.dao: trace
+      #mybatis-plus:
+      #  mapper-locations:
+      #  classpath:mapper/*Mapper.xml
+      # global-config:
+    #   db-config:
+    #      id-type: auto
+
+
+
+
+

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyNeedMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyNeed" >
+    <id column="n_id" property="nId" jdbcType="INTEGER" />
+    <result column="n_title" property="nTitle" jdbcType="VARCHAR" />
+    <result column="n_img" property="nImg" jdbcType="VARCHAR" />
+    <result column="n_pubtime" property="nPubtime" jdbcType="TIMESTAMP" />
+    <result column="n_userid" property="nUserid" jdbcType="INTEGER" />
+    <result column="n_getclick" property="nGetclick" jdbcType="INTEGER" />
+    <result column="n_scan" property="nScan" jdbcType="INTEGER" />
+    <result column="n_state" property="nState" jdbcType="INTEGER" />
+    <result column="n_mark" property="nMark" jdbcType="VARCHAR" />
+    <result column="n_if" property="nIf" jdbcType="INTEGER" />
+    <result column="n_ideaid" property="nIdeaid" jdbcType="INTEGER" />
+    <result column="n_ifcheck" property="nIfcheck" jdbcType="INTEGER" />
+    <result column="n_checker" property="nChecker" jdbcType="INTEGER" />
+    <result column="n_checktime" property="nChecktime" jdbcType="TIMESTAMP" />
+    <result column="n_one" property="nOne" jdbcType="VARCHAR" />
+    <result column="n_two" property="nTwo" jdbcType="VARCHAR" />
+    <result column="n_three" property="nThree" jdbcType="VARCHAR" />
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+    </association>
+    <association property="toyAdmin" javaType="com.admin.admin.pojo.ToyAdmin">
+      <id column="a_id" property="aId" jdbcType="INTEGER"/>
+      <result column="a_username" property="aUsername" jdbcType="VARCHAR"/>
+      <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.admin.admin.pojo.ToyNeed" extends="BaseResultMap" >
+    <result column="n_content" property="nContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    n_id, n_title, n_img, n_pubtime, n_userid, n_getclick, n_scan, n_state, n_mark, n_if, 
+    n_ideaid, n_ifcheck, n_checker, n_checktime, n_one, n_two, n_three, n_content
+  </sql>
+  <sql id="Base_Column_List2" >
+    n_id, n_title, n_img, n_pubtime, n_userid, n_getclick, n_scan, n_state, n_mark, n_if,
+    n_ideaid, n_ifcheck, n_checker, n_checktime, n_one, n_two, n_three, n_content,u_id,u_phone,u_username,u_name,a_id,a_username,a_name
+  </sql>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs" >
+  select
+  <include refid="Base_Column_List2" />
+  from toy_need,toy_user,toy_admin where u_id=n_userid and n_checker=a_id
+</select>
+  <select id="count" resultType="int" >
+    select
+count(1)
+    from toy_need,toy_user,toy_admin where u_id=n_userid and n_checker=a_id
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_need
+    where n_id = #{nId,jdbcType=INTEGER}
+  </delete>
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyNeed" >
+    update toy_need
+    set
+      n_state = #{nState,jdbcType=INTEGER},
+      n_mark = #{nMark,jdbcType=VARCHAR},
+      n_if = #{nIf,jdbcType=INTEGER},
+      n_ifcheck = #{nIfcheck,jdbcType=INTEGER},
+      n_checker = #{nChecker,jdbcType=INTEGER},
+      n_checktime = #{nChecktime,jdbcType=TIMESTAMP}
+
+    where n_id = #{nId,jdbcType=INTEGER}
+  </update>
+</mapper>

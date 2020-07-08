@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyDesignerMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyDesigner" >
+    <id column="d_id" property="dId" jdbcType="INTEGER" />
+    <result column="d_u_id" property="dUId" jdbcType="INTEGER" />
+    <result column="d_describe" property="dDescribe" jdbcType="VARCHAR" />
+    <result column="d_signature" property="dSignature" jdbcType="VARCHAR" />
+    <result column="d_workcount" property="dWorkcount" jdbcType="INTEGER" />
+    <result column="d_truename" property="dTruename" jdbcType="VARCHAR" />
+    <result column="d_truecard" property="dTruecard" jdbcType="INTEGER" />
+    <result column="d_address" property="dAddress" jdbcType="VARCHAR" />
+    <result column="d_grade" property="dGrade" jdbcType="INTEGER" />
+    <result column="d_createtime" property="dCreatetime" jdbcType="TIMESTAMP" />
+    <result column="d_state" property="dState" jdbcType="INTEGER" />
+    <result column="d_ifreport" property="dIfreport" jdbcType="INTEGER" />
+    <result column="d_mark" property="dMark" jdbcType="VARCHAR" />
+    <result column="d_one" property="dOne" jdbcType="VARCHAR" />
+    <result column="d_two" property="dTwo" jdbcType="VARCHAR" />
+    <result column="d_three" property="dThree" jdbcType="VARCHAR" />
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_phone" property="uPhone" jdbcType="VARCHAR" />
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    d_id, d_u_id, d_describe, d_signature, d_workcount, d_truename, d_truecard, d_address, 
+    d_grade, d_createtime, d_state, d_ifreport, d_mark, d_one, d_two, d_three
+  </sql>
+
+  <sql id="Base_Column_List2" >
+    d.d_id, d.d_u_id, d.d_describe,d.d_signature, d.d_workcount, d.d_truename, d.d_truecard, d.d_address,
+    d.d_grade, d.d_createtime, d.d_state, d.d_ifreport, d.d_mark, d.d_one, d.d_two, d.d_three,u.u_id,u_phone,u.u_username,u.u_name
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List2" />
+    from toy_designer d,toy_user u where u.u_id=d.d_u_id
+  </select>
+  <select id="selectAllcount" resultType="int" >
+    select
+count(*)    from toy_designer d,toy_user u where u.u_id=d.d_u_id
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from toy_designer
+    where d_id = #{dId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_designer
+    where d_id = #{dId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyDesigner" >
+    insert into toy_designer (d_id, d_u_id, d_describe, 
+      d_signature, d_workcount, d_truename, 
+      d_truecard, d_address, d_grade, 
+      d_createtime, d_state, d_ifreport, 
+      d_mark, d_one, d_two, 
+      d_three)
+    values (#{dId,jdbcType=INTEGER}, #{dUId,jdbcType=INTEGER}, #{dDescribe,jdbcType=VARCHAR}, 
+      #{dSignature,jdbcType=VARCHAR}, #{dWorkcount,jdbcType=INTEGER}, #{dTruename,jdbcType=VARCHAR}, 
+      #{dTruecard,jdbcType=INTEGER}, #{dAddress,jdbcType=VARCHAR}, #{dGrade,jdbcType=INTEGER}, 
+      #{dCreatetime,jdbcType=TIMESTAMP}, #{dState,jdbcType=INTEGER}, #{dIfreport,jdbcType=INTEGER}, 
+      #{dMark,jdbcType=VARCHAR}, #{dOne,jdbcType=VARCHAR}, #{dTwo,jdbcType=VARCHAR}, 
+      #{dThree,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyDesigner" >
+    update toy_designer
+    set d_u_id = #{dUId,jdbcType=INTEGER},
+      d_describe = #{dDescribe,jdbcType=VARCHAR},
+      d_signature = #{dSignature,jdbcType=VARCHAR},
+      d_workcount = #{dWorkcount,jdbcType=INTEGER},
+      d_truename = #{dTruename,jdbcType=VARCHAR},
+      d_truecard = #{dTruecard,jdbcType=INTEGER},
+      d_address = #{dAddress,jdbcType=VARCHAR},
+      d_grade = #{dGrade,jdbcType=INTEGER},
+      d_createtime = #{dCreatetime,jdbcType=TIMESTAMP},
+      d_state = #{dState,jdbcType=INTEGER},
+      d_ifreport = #{dIfreport,jdbcType=INTEGER},
+      d_mark = #{dMark,jdbcType=VARCHAR},
+      d_one = #{dOne,jdbcType=VARCHAR},
+      d_two = #{dTwo,jdbcType=VARCHAR},
+      d_three = #{dThree,jdbcType=VARCHAR}
+    where d_id = #{dId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByGrade" parameterType="com.admin.admin.pojo.ToyDesigner" >
+    update toy_designer
+    set
+      d_grade = #{dGrade,jdbcType=INTEGER}
+
+    where d_id = #{dId,jdbcType=INTEGER}
+  </update>
+</mapper>

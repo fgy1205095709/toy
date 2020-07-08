@@ -1,0 +1,150 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>向上下左右不间断无缝滚动效果</title>
+</head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>ToyCreateDesign后台管理</title>
+<!-- plugins:css -->
+<link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+<link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- plugin css for this page -->
+<link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- endinject -->
+<link rel="shortcut icon" href="/images/favicon.png"/>
+<body><link rel="stylesheet" href="/css/liMarquee.css">
+<style>
+    .dowebok { width: 790px; height: 200px; margin: 100px auto; font-size: 14px;}
+    .dowebok ul { margin: 0; line-height: 30px;}
+    .dowebok a { color: #333; text-decoration: none;}
+    .dowebok a:hover { text-decoration: underline;}
+</style>
+<script src="/js/jquery-1.8.3.min.js"></script>
+<script src="/js/jquery.liMarquee.js"></script>
+<table>
+
+    <input type="hidden" id="size" name="size" th:value="${size}"/>
+    <tr>
+        <th>用户id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+        <th>手机号&nbsp;&nbsp;&nbsp;</th>
+        <th>账号名&nbsp;</th>
+        <th>昵称&nbsp;</th>
+        <th>&nbsp;性别</th>
+        <th>年龄</th>
+        <th>备注</th>
+        <th>状态</th>
+        <th>操作</th>
+    </tr></table>
+<!--<p>此处放文字4。。。。。。。。。</p>-->
+<!--<p>此处放文字5。。。。。。。。。</p>-->
+<!--<p>此处放文字6。。。。。。。。。</p>-->
+<!--<p>此处放文字7。。。。。。。。。</p>-->
+<!--<p>此处放文字8。。。。。。。。。</p>-->
+<!--<p>此处放文字9。。。。。。。。。</p>-->
+<table class="dowebok" >
+        <!-- 表头  -->
+        <!-- 循环 -->
+        <tr th:each="a: ${USERLIST}" th:if="${a.uId} ne 10000" style="height: 40px">
+            <td th:text="${a.uId}">
+            </td>
+            <td th:text="${a.uPhone}">推荐</td>
+            <td th:text="${a.uUsername}" class="text-danger">  <i
+                    class="mdi mdi-arrow-up"></i></td>
+            <td th:text="${a.uName}">推荐</td>
+            <td th:text="${a.uSex}" class="text-danger"> </td>
+            <td th:text="${a.uAge}">推荐</td>
+            <td th:text="${a.uMark}" class="text-danger"></td>
+            <td>
+                <span th:if="${a.uState} eq 1" th:text="正常"></span>
+                <span th:if="${a.uState} eq 2" th:text="已封号"></span>
+            </td>
+            <td>
+            </td>
+        </tr>
+</table>
+
+<!--<script type="text/javascript">-->
+    <!---->
+    <!--function init(){-->
+        <!--alert(7);-->
+
+        <!--// if ([[${size}]] <= 7) {-->
+        <!--//     alert([[${size}]]);-->
+        <!--//-->
+        <!--//     $('.dowebok').liMarquee({-->
+        <!--//         direction: 'up'-->
+        <!--//     });-->
+        <!--// } else {-->
+        <!--//     alert([[${size}]]);-->
+        <!--// }-->
+        <!---->
+        <!--// var svalue = $(date).attr("size");-->
+        <!--// alert(7);-->
+       <!---->
+    <!--}-->
+<!--</script>-->
+
+<script type="text/javascript">
+    window.onload = function () {
+        alert ([[${size}]]);
+        if([[${size}]]<7){
+            alert ([[${size}]]);
+
+            $('.dowebok').liMarquee({
+                direction: 'up'
+            });
+        }
+        
+    };
+     // $(function(){
+     //     alert ([[${size}]]);
+     //     if([[${size}]]<7){
+     //         alert ([[${size}]]);
+     //
+     //         $('.dowebok').liMarquee({
+     //             direction: 'up'
+     //         });
+     //     }
+     // });
+        //
+        // if(svalue>4){ 
+        //    $('.dowebok').liMarquee();
+        // }else {
+        //     alert(svalue);
+        //     $('.dowebok').liMarquee({
+        //         runshort: false
+        //     });
+        // }
+
+
+// var speed=20;
+// var colee2=document.getElementById("colee2");
+// var colee1=document.getElementById("colee1");
+// var colee=document.getElementById("colee");
+// colee2.innerHTML=colee1.innerHTML; //克隆colee1为colee2
+// function Marquee1(){
+// //当滚动至colee1与colee2交界时
+// if(colee2.offsetTop-colee.scrollTop<=0){
+//  colee.scrollTop-=colee1.offsetHeight; //colee跳到最顶端
+//  }else{
+//  colee.scrollTop++
+// }
+// }
+// var MyMar1=setInterval(Marquee1,speed)//设置定时器
+// //鼠标移上时清除定时器达到滚动停止的目的
+// colee.onmouseover=function() {clearInterval(MyMar1)}
+// //鼠标移开时重设定时器
+// colee.onmouseout=function(){MyMar1=setInterval(Marquee1,speed)}
+</script>
+<!--向上滚动代码结束-->
+ 
+
+</body>
+</html>

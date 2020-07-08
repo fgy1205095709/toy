@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >需求管理</div>
+
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>创意id</th>
+                                        <th>标题</th>
+                                        <th>内容</th>
+                                        <th>发布时间</th>
+                                        <th>状态</th>
+                                        <th>用户名</th>
+                                        <th>浏览量</th>
+                                        <th>审核人</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${NEED}">
+                                        <td th:text="${a.nId}"></td>
+                                        <td th:text="${a.nTitle}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:150px" class="text-danger">
+                                        </td>
+                                        <td th:text="${a.nContent}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:150px"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${#dates.format(a.nPubtime,'yyyy-MM-dd')}" > 1 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td  >
+                                            <div th:if="${a.nState} eq 1" th:text="上线中"></div>
+                                            <div th:if="${a.nState} eq 2" th:text="待上线"></div>
+                                            <div th:if="${a.nState} eq 3" th:text="已删除"  class="text-danger"></div>
+                                            <div th:if="${a.nState} eq 4" th:text="未通过"  class="text-danger"></div>
+                                        </td>
+                                        <td th:text="${a.toyUser.uName}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.nScan}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+                                            <div th:if="${a.toyAdmin.aId} eq 9999" th:text="未审核"  class="text-danger"></div>
+                                            <div th:if="${a.toyAdmin.aId} ne 9999" th:text="${a.toyAdmin.aName}"></div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource"
+                                                  th:if="${a.nIf} eq 1"  th:id="${a.nId}"  onclick="updateneedchecker(this)">审核</button>
+
+                                            <button type="button" class="btn btn-gradient-danger btn-sm"
+                                                    data-toggle="modal"
+                                                    data-target="#deleteSource" th:id="${a.nId}"
+                                                    onclick="deletea(this)">删除
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px; text-decoration: none;" href="/showNeed?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showNeed?pageNum='+${pageNum-1}}">上一页</a>
+
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showNeed?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;text-decoration: none;" th:href="@{'/showNeed?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">您正在审核创意信息：</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/checkNeed"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" name="nId"  id="nId">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="nIf">
+                                            <label class="col-sm-3 col-form-label">审核结果：</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="nIf" value="1" checked="" th:text="通过">
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="nIf" value="4" th:text="不通过">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="nMark" class="col-xs-3 control-label">原因：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="nMark" name="nMark">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="deleteSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" style="text-align: center">
+                                <div class="container-fluid">删除操作！</div>
+                                <div class="container-fluid">点击确认后，将会删除！</div>
+                            </div>
+                            <form action="/deleteNeed" method="post">
+                                <input type="hidden" id="dele" name="nId" value="">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-white"
+                                            data-dismiss="modal">取 消
+                                    </button>
+                                    <button type="submit" class="btn btn-xs btn-danger">确定</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:replace="adHead::password" ></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>

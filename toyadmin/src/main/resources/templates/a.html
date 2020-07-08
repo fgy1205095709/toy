@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="/echarts/echarts.js"></script>
+<script src="/js/jquery-1.3.2.js"></script>
+<style>
+    #tou{
+        background-image: url(/work/toubu.png);
+        background-size:100%,10%;
+        margin: -10px;
+        color: #f8f9f4;
+    }
+    body {
+        background-image: url(/work/beijing.webp);
+    }
+    .tablelong{
+        width: 155px;
+        border:solid #3f42f9 1px;
+        background-color: #0fd5ff;
+    }
+    .tablexiao2{
+        width: 125px;
+        border:solid #4a8af9 1px;
+        line-height: 35px;
+        font-size: 15px;
+    }
+    .tablexiao{
+        height: 30px;
+        width: 137px;border:solid #4a8af9 1px;
+    }
+</style>
+<body>
+
+<div>
+    <div style="width: 1521px;height:60px;margin-top: -10px" id="tou">
+        <img src="/images/crrclogohei.png" width="230px" height="35px"  style="margin-top: 10px;float: left;margin-left: 1%"/>
+        <div style="color: #69d6ff;text-align:center;float: left;margin-left: 29%;margin-top: 5px;font-size: 25px;"><strong>项目管理看板</strong></div>
+        <div style="text-align:right;float: left;margin-left: 30%;margin-top: 15px" id="timeShow">1919-01-10 11:01:01 星期一</div>
+    </div>
+    <div>
+        <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border:none;">
+            <tr style=" color: #f8f9f4;">
+                <th style="width:200px;border:solid #3f42f9 1px;background-color: #eb7350">第20列</th>
+                <th style="width: 200px;border:solid #3f42f9 1px;background-color: #01AAED">TC1</th>
+                <th style="width:200px;border:solid #3f42f9 1px;background-color: #01AAED">MP1</th>
+                <th style="width: 200px;border:solid #3f42f9 1px;background-color: #01AAED">M1</th>
+                <th style="width: 200px;border:solid #3f42f9 1px;background-color: #01AAED">M2</th>
+                <th style="width:200px;border:solid #3f42f9 1px;background-color: #01AAED">MP2</th>
+                <th style="width: 200px;border:solid #3f42f9 1px;background-color: #01AAED">TC2</th>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div style="color: #f8f9f4;margin-left: 10px;float: left; margin-top: 10px">
+        <div style="float: left;">南京地铁三号线项目&nbsp; &nbsp;&nbsp;&nbsp;</div>
+            <div  style="width: 1255px;border:solid #f8f9f4 1px;float: left;">
+                实际为img图片
+            </div>
+    </div>
+    <div style="color: #f8f9f4;margin-left: 10px;float: left; margin-top: 10px">
+        <div  style="width: 1422px;border:solid #f8f9f4 1px;float: left;">
+            实际为img图片
+        </div>
+    </div>
+    <div>
+        <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border:none;">
+            <tr style=" color: #f8f9f4;">
+                <td style="width: 145px;height: 100px;border:solid #4a8af9 1px;" rowspan="2"><p style="font-size: 20px;text-align:center;">20</p>
+                <p style="font-size: 15px;text-align:center;color:#4a8af9;">工艺变更数量</p>
+                <td style="width: 10px;" rowspan="2"></td>
+                <th class="tablexiao">工艺规划</th>
+                <th class="tablexiao">TC1</th>
+                <th class="tablexiao">MP1</th>
+                <th class="tablexiao">M1</th>
+                <th class="tablexiao">MP2</th>
+                <th class="tablexiao">M2</th>
+                <th class="tablexiao">M3</th>
+                <th class="tablexiao">MP3</th>
+                <th class="tablexiao">TC2</th>
+            </tr>
+            <tr style=" color: #f8f9f4;">
+                <th class="tablexiao2">工艺指导设计<p style="font-size: 10px;margin-top:-10px">完成数/工艺规划工序数</p></th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+
+            </tr>
+        </table>
+    </div>
+    <div style="color: #f8f9f4;margin-left: 10px;float: left; margin-top: 10px">
+        <div  style="width: 1422px;border:solid #f8f9f4 1px;float: left;">
+            实际为img图片
+        </div>
+    </div>
+    <div>
+        <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border:none;">
+            <tr style="color: #f8f9f4;">
+                <td style="width: 145px;height: 100px;border:solid #4a8af9 1px;" rowspan="2"><p style="font-size: 20px;text-align:center;">20</p>
+                    <p style="font-size: 15px;text-align:center;color:#4a8af9; ">来料专检数量</p></td>
+                <td style="width: 10px;" rowspan="2"></td>
+                <th class="tablexiao">质量策划</th>
+                <th class="tablexiao">TC1</th>
+                <th class="tablexiao">MP1</th>
+                <th class="tablexiao">M1</th>
+                <th class="tablexiao">MP2</th>
+                <th class="tablexiao">M2</th>
+                <th class="tablexiao">M3</th>
+                <th class="tablexiao">MP3</th>
+                <th class="tablexiao">TC2</th>
+            </tr>
+            <tr style=" color: #f8f9f4;">
+                <th class="tablexiao2">过程专检策划<p style="font-size: 10px;margin-top:-10px">完成数/工艺规划工序数</p></th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+                <th class="tablexiao2"><p style="font-size: 22px;display: inline">50</p>/50</th>
+            </tr>
+        </table>
+    </div>
+    <div style="color: #f8f9f4;margin-left: 10px;float: left; margin-top: 10px">
+        <div  style="width: 1422px;border:solid #f8f9f4 1px;float: left;">
+            实际为img图片
+        </div>
+    </div>
+    <!--<br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>    <br>-->
+    <div>
+        <div style="margin-left: 10px">
+
+            <table style="margin-top: 10px;float: left;display: inline;border-collapse:collapse;border-left:none;border-right:none">
+                <tr style=" color: #f8f9f4;width: 1350px">
+                    <th class="tablelong"><a onclick="hide()">切换1</a></th>
+                    <th class="tablelong"><a onclick="hide2()">切换2</a></th>
+                    <th class="tablelong"><a onclick="hide3()">切换3</a></th>
+
+                </tr>
+            </table>
+        </div>
+        <div id="img1" style="color: #f8f9f4;float: left; display:none;">
+            <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border-left:none;border-right:none">
+                <tr style=" color: #f8f9f4;width: 1350px">
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                    <th class="tablelong">Month1</th>
+                </tr>
+            </table>
+        </div>
+        <div id="img2" style="color: #f8f9f4;float: left; display:none;">
+            <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border:none;">
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                    <th class="tablelong">Month2</th>
+                </tr>
+            </table>
+        </div>
+        <div id="img3" style="color: #f8f9f4;float: left;display:none;">
+            <table style="margin-top: 10px;float: left;display: inline;margin-left: 10px;border-collapse:collapse;border:none;">
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+                <tr style=" color: #f8f9f4;">
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                    <th class="tablelong">Month3</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    window.onload = function () {
+        var img = document.getElementById("img1");
+        img.style.display = "block"
+    }
+    function hide() {
+        var img = document.getElementById("img1");
+        var img2 = document.getElementById("img2");
+        var img3 = document.getElementById("img3");
+        img.style.display = "block";
+        img2.style.display = "none";
+        img3.style.display = "none"
+    }
+    function hide2() {
+        var img = document.getElementById("img1");
+        var img2 = document.getElementById("img2");
+        var img3 = document.getElementById("img3");
+        img.style.display = "none";
+        img2.style.display = "block";
+        img3.style.display = "none"
+    }
+    function hide3() {
+        var img = document.getElementById("img1");
+        var img2 = document.getElementById("img2");
+        var img3 = document.getElementById("img3");
+        img.style.display = "none";
+        img2.style.display = "none";
+        img3.style.display = "block"
+    }
+</script>
+</body>
+</html>

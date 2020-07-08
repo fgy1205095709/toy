@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyMessage" >
+    <id column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="m_type" property="mType" jdbcType="INTEGER" />
+    <result column="m_sendm_id" property="mSendmId" jdbcType="INTEGER" />
+    <result column="m_title" property="mTitle" jdbcType="VARCHAR" />
+    <result column="m_content" property="mContent" jdbcType="VARCHAR" />
+    <result column="m_time" property="mTime" jdbcType="TIMESTAMP" />
+    <result column="m_bsend_id" property="mBsendId" jdbcType="INTEGER" />
+    <result column="m_state" property="mState" jdbcType="INTEGER" />
+    <result column="m_parent" property="mParent" jdbcType="INTEGER" />
+    <result column="m_message" property="mMessage" jdbcType="VARCHAR" />
+    <result column="m_mark" property="mMark" jdbcType="VARCHAR" />
+    <result column="m_one" property="mOne" jdbcType="VARCHAR" />
+    <result column="m_two" property="mTwo" jdbcType="VARCHAR" />
+    <result column="m_three" property="mThree" jdbcType="VARCHAR" />
+    <association property="toyAdmin" javaType="com.admin.admin.pojo.ToyAdmin">
+      <id column="a_id" property="aId" jdbcType="INTEGER"/>
+      <result column="a_username" property="aUsername" jdbcType="VARCHAR"/>
+      <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+    </association>
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    m_id, m_type, m_sendm_id, m_title, m_content, m_time, m_bsend_id, m_state, m_parent,
+    m_message, m_mark, m_one, m_two, m_three
+  </sql>
+  <sql id="Base_Column_List2" >
+    m_id, m_type, m_sendm_id, m_title, m_content, m_time, m_bsend_id, m_state, m_parent,
+    m_message, m_mark, m_one, m_two, m_three,a_id,a_username,a_name
+  </sql>
+  <sql id="Base_Column_List3" >
+    m_id, m_type, m_sendm_id, m_title, m_content, m_time, m_bsend_id, m_state, m_parent,
+    m_message, m_mark, m_one, m_two, m_three,a_id,a_username,a_name,u_id,u_username,u_name
+  </sql>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List3" />
+    from toy_message,toy_admin,toy_user where  a_id=m_sendm_id and m_bsend_id=u_id and m_message=2 and m_type=1
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from toy_message
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
+  <select id="countAll" resultType="java.lang.Integer">
+    select
+count(1)
+    from toy_message,toy_admin,toy_user where  a_id=m_sendm_id and m_bsend_id=u_id and m_message=2 and m_type=1
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_message
+    where m_id = #{mId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyMessage" >
+    insert into toy_message (m_id, m_type, m_sendm_id, 
+      m_title, m_content, m_time, 
+      m_bsend_id, m_state, m_parent, 
+      m_message, m_mark, m_one, 
+      m_two, m_three)
+    values (#{mId,jdbcType=INTEGER}, #{mType,jdbcType=INTEGER}, #{mSendmId,jdbcType=INTEGER}, 
+      #{mTitle,jdbcType=VARCHAR}, #{mContent,jdbcType=VARCHAR}, #{mTime,jdbcType=TIMESTAMP}, 
+      #{mBsendId,jdbcType=INTEGER}, #{mState,jdbcType=INTEGER}, #{mParent,jdbcType=INTEGER}, 
+      #{mMessage,jdbcType=VARCHAR}, #{mMark,jdbcType=VARCHAR}, #{mOne,jdbcType=VARCHAR}, 
+      #{mTwo,jdbcType=VARCHAR}, #{mThree,jdbcType=VARCHAR})
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyMessage" >
+    update toy_message
+    set
+      m_title = #{mTitle,jdbcType=VARCHAR},
+      m_content = #{mContent,jdbcType=VARCHAR},
+      m_state = #{mState,jdbcType=INTEGER},
+      m_mark = #{mMark,jdbcType=VARCHAR}
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByparent" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select
+    <include refid="Base_Column_List3" />
+    from toy_message,toy_admin,toy_user where  a_id=m_sendm_id and m_bsend_id=u_id and m_message=1 and m_parent=#{mParent,jdbcType=INTEGER}
+  </select>
+</mapper>

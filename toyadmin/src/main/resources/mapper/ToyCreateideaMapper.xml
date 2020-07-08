@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyCreateideaMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyCreateidea" >
+    <id column="ci_id" property="ciId" jdbcType="INTEGER" />
+    <result column="ci_title" property="ciTitle" jdbcType="VARCHAR" />
+    <result column="ci_img" property="ciImg" jdbcType="VARCHAR" />
+    <result column="ci_brand" property="ciBrand" jdbcType="VARCHAR" />
+    <result column="ci_kind" property="ciKind" jdbcType="INTEGER" />
+    <result column="ci_agegroup" property="ciAgegroup" jdbcType="INTEGER" />
+    <result column="ci_texture" property="ciTexture" jdbcType="INTEGER" />
+    <result column="ci_function" property="ciFunction" jdbcType="INTEGER" />
+    <result column="ci_action" property="ciAction" jdbcType="VARCHAR" />
+    <result column="ci_security" property="ciSecurity" jdbcType="INTEGER" />
+    <result column="ci_pubtime" property="ciPubtime" jdbcType="TIMESTAMP" />
+    <result column="ci_userid" property="ciUserid" jdbcType="INTEGER" />
+    <result column="ci_comments" property="ciComments" jdbcType="INTEGER" />
+    <result column="ci_scan" property="ciScan" jdbcType="INTEGER" />
+    <result column="ci_getclick" property="ciGetclick" jdbcType="INTEGER" />
+    <result column="ci_state" property="ciState" jdbcType="INTEGER" />
+    <result column="ci_ifreport" property="ciIfreport" jdbcType="INTEGER" />
+    <result column="ci_price" property="ciPrice" jdbcType="DOUBLE" />
+    <result column="ci_cell" property="ciCell" jdbcType="INTEGER" />
+    <result column="ci_celltime" property="ciCelltime" jdbcType="TIMESTAMP" />
+    <result column="ci_ifcheck" property="ciIfcheck" jdbcType="INTEGER" />
+    <result column="ci_checker" property="ciChecker" jdbcType="INTEGER" />
+    <result column="ci_checktime" property="ciChecktime" jdbcType="TIMESTAMP" />
+    <result column="ci_mark" property="ciMark" jdbcType="VARCHAR" />
+    <result column="ci_one" property="ciOne" jdbcType="VARCHAR" />
+    <result column="ci_two" property="ciTwo" jdbcType="VARCHAR" />
+    <result column="ci_three" property="ciThree" jdbcType="VARCHAR" />
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+      <result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+      <result column="u_head" property="uHead" jdbcType="VARCHAR" />
+
+    </association>
+    <association property="toyAdmin" javaType="com.admin.admin.pojo.ToyAdmin">
+      <id column="a_id" property="aId" jdbcType="INTEGER"/>
+      <result column="a_username" property="aUsername" jdbcType="VARCHAR"/>
+      <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+    </association>
+    <association property="toyClassification" javaType="com.admin.admin.pojo.ToyClassification">
+      <id column="c_id" property="cId" jdbcType="INTEGER"/>
+      <result column="c_name" property="cName" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.admin.admin.pojo.ToyCreateidea" extends="BaseResultMap" >
+    <result column="ci_content" property="ciContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <resultMap id="BaseResultMap2" type="com.admin.admin.pojo.Homepage" >
+    <id column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="userideacount" property="userideacount" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap id="BaseResultMap3" type="com.admin.admin.pojo.Homepage" >
+    <id column="userid" property="userid" jdbcType="INTEGER" />
+    <result column="userordercount" property="userordercount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ci_id, ci_title, ci_img, ci_brand, ci_kind, ci_agegroup, ci_texture, ci_function, 
+    ci_action, ci_security, ci_pubtime, ci_userid, ci_comments, ci_scan, ci_getclick, 
+    ci_state, ci_ifreport, ci_price, ci_cell, ci_celltime, ci_checker, ci_checktime,ci_ifcheck,
+    ci_mark, ci_one, ci_two, ci_three
+  </sql>
+  <sql id="Blob_Column_List" >
+    ci_content
+  </sql>
+
+  <sql id="Base_Column_List2" >
+    ci.ci_id,  ci.ci_title,  ci.ci_img,  ci.ci_brand,  ci.ci_kind,  ci.ci_agegroup,  ci.ci_texture,  ci.ci_function,
+     ci.ci_action,  ci.ci_security,  ci.ci_pubtime,  ci.ci_userid,  ci.ci_comments,  ci.ci_scan,  ci.ci_getclick,
+     ci.ci_state,  ci.ci_ifreport,  ci.ci_price,  ci.ci_cell,  ci.ci_celltime,  ci.ci_checker,  ci.ci_checktime,ci.ci_ifcheck,
+     ci.ci_mark,  ci.ci_one,  ci.ci_two,  ci.ci_three,  ci.ci_content,u.u_id,u.u_username,u.u_name,u.u_truename,u.u_head,
+     a.a_id,a.a_username,a.a_name
+  </sql>
+
+  <select id="selectAll" resultMap="ResultMapWithBLOBs"  >
+    select
+    <include refid="Base_Column_List2" />
+    from toy_createidea ci,toy_admin a,toy_user u
+    where ci.ci_userid=u.u_id and ci.ci_checker=a.a_id
+  </select>
+
+  <select id="selectbyuser" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer"  >
+    select
+    <include refid="Base_Column_List2" />
+    from toy_createidea ci,toy_admin a,toy_user u
+    where ci.ci_userid=u.u_id and ci.ci_checker=a.a_id
+    and ci.ci_userid = #{ciUserid,jdbcType=INTEGER} limit 11
+  </select>
+  <select id="selectAllcount" resultType="int"  >
+    select
+count(*)    from toy_createidea ci,toy_admin a,toy_user u
+    where ci.ci_userid=u.u_id and ci.ci_checker=a.a_id
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from toy_createidea
+    where ci_id = #{ciId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_createidea
+    where ci_id = #{ciId,jdbcType=INTEGER}
+  </delete>
+
+
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.admin.admin.pojo.ToyCreateidea" >
+    update toy_createidea
+    set ci_title = #{ciTitle,jdbcType=VARCHAR},
+      ci_img = #{ciImg,jdbcType=VARCHAR},
+      ci_brand = #{ciBrand,jdbcType=VARCHAR},
+      ci_kind = #{ciKind,jdbcType=INTEGER},
+      ci_agegroup = #{ciAgegroup,jdbcType=INTEGER},
+      ci_texture = #{ciTexture,jdbcType=INTEGER},
+      ci_function = #{ciFunction,jdbcType=INTEGER},
+      ci_action = #{ciAction,jdbcType=VARCHAR},
+      ci_security = #{ciSecurity,jdbcType=INTEGER},
+      ci_pubtime = #{ciPubtime,jdbcType=TIMESTAMP},
+      ci_userid = #{ciUserid,jdbcType=INTEGER},
+      ci_comments = #{ciComments,jdbcType=INTEGER},
+      ci_scan = #{ciScan,jdbcType=INTEGER},
+      ci_getclick = #{ciGetclick,jdbcType=INTEGER},
+      ci_state = #{ciState,jdbcType=INTEGER},
+      ci_ifreport = #{ciIfreport,jdbcType=INTEGER},
+      ci_price = #{ciPrice,jdbcType=DOUBLE},
+      ci_cell = #{ciCell,jdbcType=INTEGER},
+      ci_celltime = #{ciCelltime,jdbcType=TIMESTAMP},
+      ci_checker = #{ciChecker,jdbcType=INTEGER},
+      ci_checktime = #{ciChecktime,jdbcType=TIMESTAMP},
+      ci_mark = #{ciMark,jdbcType=VARCHAR},
+      ci_one = #{ciOne,jdbcType=VARCHAR},
+      ci_two = #{ciTwo,jdbcType=VARCHAR},
+      ci_three = #{ciThree,jdbcType=VARCHAR},
+      ci_content = #{ciContent,jdbcType=LONGVARCHAR}
+    where ci_id = #{ciId,jdbcType=INTEGER}
+  </update>
+  <sql id="Base_Column_List3" >
+    ci.ci_id,  ci.ci_title,  ci.ci_kind,  ci.ci_agegroup,  ci.ci_texture,  ci.ci_function,c.c_id,c.c_name
+  </sql>
+<update id="updatestate" parameterType="int">
+    update toy_createidea set
+
+      ci_state = #{ciState,jdbcType=INTEGER}
+    where ci_id = #{ciId,jdbcType=INTEGER}
+</update>
+<update id="updateifcheck" parameterType="com.admin.admin.pojo.ToyCreateidea">
+   update toy_createidea
+    set  ci_state = #{ciState,jdbcType=INTEGER},
+      ci_security=#{ciSecurity,jdbcType=INTEGER},
+      ci_checker = #{ciChecker,jdbcType=INTEGER},
+      ci_checktime = #{ciChecktime,jdbcType=TIMESTAMP},
+      ci_mark = #{ciMark,jdbcType=VARCHAR},
+      ci_ifcheck = #{ciIfcheck,jdbcType=INTEGER}
+    where ci_id = #{ciId,jdbcType=INTEGER}
+</update>
+  <select id="selectstate" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+
+    select
+    <include refid="Base_Column_List2" />
+    from toy_createidea ci,toy_admin a,toy_user u
+    where ci.ci_userid=u.u_id and ci.ci_checker=a.a_id and ci.ci_state=3 or ci.ci_state=4
+  </select>
+  <select id="selectideacount" resultMap="BaseResultMap2">
+    select ci_userid userid,count(ci_userid) userideacount from toy_createidea GROUP BY userid order by userideacount DESC
+  </select>
+  <select id="selectorder" resultMap="BaseResultMap2">
+  select o_userid userid,count(o_userid) userordercount from toy_order GROUP BY userid order by userordercount DESC
+
+  </select>
+  <select id="selecttitle" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List2" />
+    from toy_createidea ci,toy_admin a,toy_user u
+    where ci.ci_userid=u.u_id and ci.ci_checker=a.a_id and ci.ci_title like #{title,jdbcType=VARCHAR} or ci.ci_content like #{title,jdbcType=VARCHAR}
+  </select>
+</mapper>

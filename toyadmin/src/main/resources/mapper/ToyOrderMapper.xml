@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyOrder" >
+    <id column="o_id" property="oId" jdbcType="INTEGER" />
+    <result column="o_userid" property="oUserid" jdbcType="INTEGER" />
+    <result column="o_ideaid" property="oIdeaid" jdbcType="INTEGER" />
+    <result column="o_buserid" property="oBuserid" jdbcType="INTEGER" />
+    <result column="o_userphone" property="oUserphone" jdbcType="VARCHAR" />
+    <result column="o_buserphone" property="oBuserphone" jdbcType="VARCHAR" />
+    <result column="o_if" property="oIf" jdbcType="INTEGER" />
+    <result column="o_mark" property="oMark" jdbcType="VARCHAR" />
+    <result column="o_price" property="oPrice" jdbcType="INTEGER" />
+    <result column="o_one" property="oOne" jdbcType="VARCHAR" />
+    <result column="o_two" property="oTwo" jdbcType="VARCHAR" />
+    <result column="o_three" property="oThree" jdbcType="VARCHAR" />
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_phone" property="uPhone" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+      <result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+      <result column="u_head" property="uHead" jdbcType="VARCHAR" />
+    </association>
+    <association property="toyCreateidea" javaType="com.admin.admin.pojo.ToyCreateidea">
+      <id column="ci_id" property="ciId" jdbcType="INTEGER"/>
+      <result column="ci_title" property="ciTitle" jdbcType="VARCHAR"/>
+    </association>
+    <association property="toyAdmin" javaType="com.admin.admin.pojo.ToyAdmin">
+      <id column="a_id" property="aId" jdbcType="INTEGER"/>
+      <result column="a_username" property="aUsername" jdbcType="VARCHAR"/>
+      <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    o_id, o_userid, o_ideaid, o_buserid, o_userphone, o_buserphone, o_if, o_mark, o_price, 
+    o_one, o_two, o_three
+  </sql>
+  <sql id="Base_Column_List2" >
+    o_id, o_userid, o_ideaid, o_buserid, o_userphone, o_buserphone, o_if, o_mark, o_price,
+    o_one, o_two, o_three,u_id,u_username,u_phone,u_truename,ci_id,ci_title,a_id,a_username,a_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List2" />
+    from toy_order,toy_user,toy_createidea,toy_admin
+    where u_id=o_userid and o_one=a_id and  o_ideaid=ci_id
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from toy_order
+    where o_id = #{oId,jdbcType=INTEGER}
+  </select>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyOrder" >
+    update toy_order
+    set
+      o_if = #{oIf,jdbcType=INTEGER},
+      o_mark = #{oMark,jdbcType=VARCHAR},
+      o_price = #{oPrice,jdbcType=INTEGER},
+      o_one = #{oOne,jdbcType=VARCHAR},
+      o_two = #{oTwo,jdbcType=VARCHAR},
+      o_three = #{oThree,jdbcType=VARCHAR}
+    where o_id = #{oId,jdbcType=INTEGER}
+  </update>
+</mapper>

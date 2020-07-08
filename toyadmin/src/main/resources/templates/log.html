@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:hh="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >日志记录
+                                </div>
+                                <div>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>操作内容</th>
+                                        <th>备注</th>
+
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${log}" >
+
+                                        <td  th:text="${a.lId}" class="text-danger"></td>
+
+                                        <td th:utext="${a.lContent}" ></td>
+                                        <td th:text="${a.lMark}">  <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px; text-decoration: none;" href="/showlog?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showlog?pageNum='+${pageNum-1}}">上一页</a>
+
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showlog?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;text-decoration: none;" th:href="@{'/showlog?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- update -->
+                <!-- updatepassword  -->
+                <div th:replace="adHead::password" ></div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/vendors/js/vendor.bundle.base.js"></script>
+<script src="/vendors/js/vendor.bundle.addons.js"></script>
+<script src="/js/off-canvas.js"></script>
+<script src="/js/misc.js"></script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/main.js"></script>
+</body>
+</html>

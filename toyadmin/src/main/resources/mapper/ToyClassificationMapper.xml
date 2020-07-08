@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyClassificationMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyClassification" >
+    <id column="c_id" property="cId" jdbcType="INTEGER" />
+    <result column="c_bigid" property="cBigid" jdbcType="INTEGER" />
+    <result column="c_name" property="cName" jdbcType="VARCHAR" />
+    <result column="c_describe" property="cDescribe" jdbcType="VARCHAR" />
+    <result column="c_count" property="cCount" jdbcType="INTEGER" />
+    <result column="c_scan" property="cScan" jdbcType="INTEGER" />
+    <result column="c_state" property="cState" jdbcType="INTEGER" />
+    <result column="c_mark" property="cMark" jdbcType="VARCHAR" />
+    <result column="c_one" property="cOne" jdbcType="VARCHAR" />
+    <result column="c_two" property="cTwo" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    c_id, c_bigid, c_name, c_describe, c_count, c_scan, c_state, c_mark, c_one, c_two
+  </sql>
+  <select id="selectAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from toy_classification
+  </select>
+  <select id="countAll"  resultType="java.lang.Integer">
+    select count(*)   from toy_classification
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select    <include refid="Base_Column_List" />
+    from toy_classification where c_id = #{cId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_classification
+    where c_id = #{cId,jdbcType=INTEGER}
+  </delete>
+<select id="countnet" resultType="int">
+  select sum(c_scan) from toy_classification
+</select>
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyClassification" >
+    insert into toy_classification (c_id, c_bigid, c_name, 
+      c_describe, c_count, c_scan, 
+      c_state, c_mark, c_one, 
+      c_two)
+    values (#{cId,jdbcType=INTEGER}, #{cBigid,jdbcType=INTEGER}, #{cName,jdbcType=VARCHAR}, 
+      #{cDescribe,jdbcType=VARCHAR}, #{cCount,jdbcType=INTEGER}, #{cScan,jdbcType=INTEGER}, 
+      #{cState,jdbcType=INTEGER}, #{cMark,jdbcType=VARCHAR}, #{cOne,jdbcType=VARCHAR}, 
+      #{cTwo,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyClassification" >
+    update toy_classification
+    set c_name = #{cName,jdbcType=VARCHAR},
+      c_describe = #{cDescribe,jdbcType=VARCHAR},
+      c_state = #{cState,jdbcType=INTEGER},
+      c_mark = #{cMark,jdbcType=VARCHAR},
+      c_one = #{cOne,jdbcType=VARCHAR},
+      c_two = #{cTwo,jdbcType=VARCHAR}
+    where c_id = #{cId,jdbcType=INTEGER}
+  </update>
+</mapper>

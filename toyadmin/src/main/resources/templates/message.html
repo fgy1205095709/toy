@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >消息通知管理
+                                    <button style="float: right" class="btn btn-gradient-info" data-toggle="modal" data-target="#addSource">发送全体消息</button>
+                                    <button style="float: right" class="btn btn-gradient-info" data-toggle="modal" data-target="#addSource2">发送单独消息</button>
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>ID</th>
+                                        <input type="button" value="全选" class="btn btn-gradient-primary btn-sm"  onclick="setAll()" />
+                                        <input type="button" value="全不选"class="btn btn-gradient-primary btn-sm"  onclick="setNo()" />
+
+                                        <th>发送来源</th>
+                                        <th>标题</th>
+                                        <th>内容</th>
+                                        <th>时间</th>
+                                        <th>接收者</th>
+                                        <th>类型</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${MESSAGE}" th:if="${a.mType} eq 1">
+                                        <td>
+                                            <form id="form">
+                                            <input type="checkbox" name="love"  th:text="${a.mId}" th:value="${a.mId}">
+                                            </form>
+                                        </td>
+                                        <td th:text="${a.toyAdmin.aName}"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:50px"></td>
+                                        <td th:text="${a.mTitle}" class="text-danger"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:70px"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.mContent}"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:130px"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${#dates.format(a.mTime,'yyyy-MM-dd')}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:120px"> 1 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td class="text-danger"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:40px">
+                                            <div th:if="${a.mBsendId} eq 10000" th:text="全体用户"></div>
+                                            <div th:if="${a.mBsendId} ne 10000" th:text="${a.toyUser.uName}"></div>
+
+                                        </td>
+                                        <td style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:70px">
+                                            <div th:if="${a.mType} eq 1" th:text="管理员消息"></div>
+                                            <div th:if="${a.mType} eq 2" th:text="用户间消息"></div>
+                                        </td>
+                                        <td th:if="${a.mBsendId} ne 10000" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:40px">
+                                            <div th:if="${a.mState} eq 1" th:text="未读"></div>
+                                            <div th:if="${a.mState} eq 2" th:text="已读"></div>
+                                            <div th:if="${a.mState} eq 3" th:text="已删除"></div>
+                                        </td>
+                                        <td th:if="${a.mBsendId} eq 10000" th:text="已发出" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:40px">
+                                        </td>
+                                        <td>
+                                            <a th:if="${a.mBsendId} eq 10000" target="_self" th:href="@{'/messagefindbyparent?mParent='+${a.mParent}}"  th:id="${a.mParent}"> <button type="button" target="_self" class="btn btn-gradient-warning btn-sm"  th:id="${a.mParent}">全部</button></a>
+                                            <a th:if="${a.mBsendId} ne 10000" th:href="@{'/messagefindbymid?mId='+${a.mId}}"  th:id="${a.mId}"> <button type="button" class="btn btn-gradient-warning btn-sm"  th:id="${a.mId}">详情</button></a>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource"
+                                                    th:id="${a.mId}" th:data-sendid="${a.mSendmId}" th:data-title="${a.mTitle}"
+                                                    th:data-content="${a.mContent}" th:data-mark="${a.mMark}" th:data-state="${a.mState}"
+                                                    onclick="updatemessage(this)">更改</button>
+                                            <span th:if="${a.mParent} == null">
+                                                     <button th:if="${session.USER.aLevel} eq 1" type="button" class="btn btn-gradient-danger btn-sm" data-toggle="modal"
+                                                    data-target="#deleteSource" th:id="${a.mId}" onclick="deletea(this)">删除</button>
+                                           </span>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                    <button type="button" id="form1" text="1"  class="btn btn-gradient-danger btn-sm" onclick="javascript:shanchu()">删除消息</button>
+
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px;text-decoration: none;" href="/messageshow?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px; text-decoration: none;" th:href="@{'/messageshow?pageNum='+${pageNum-1}}">上一页</a>
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px;text-decoration: none;" th:href="@{'/messageshow?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;  text-decoration: none;" th:href="@{'/messageshow?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- partial -->
+                </div>
+                <div class="modal fade" id="deleteSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">确定要删除该条记录？删除后不可恢复！</div>
+                            </div>
+                            <form action="/messagedelete" method="post">
+                                <input type="hidden" id="dele" name="mId" >
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-xs btn-white"
+                                            data-dismiss="modal">取 消</button>
+                                    <button type="submit" class="btn btn-xs btn-danger">确定</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- update -->
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">修改信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+                            <!--update-->
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/messageupdate"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="mId" value="${a.mId}" id="mId">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mTitle" class="col-xs-3 control-label">标题：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mTitle" name="mTitle" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mContent" class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mContent" name="mContent" cols="10" rows="3">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="mState">
+                                            <label class="col-sm-3 col-form-label">状 态</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="mState" value="1" checked="" th:text="正常">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="mState" value="2" th:text="待上线">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mMark" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mMark" name="mMark" value="${a.mMark}">
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- updatepassword  -->
+                <div th:replace="adHead::password" ></div>
+                <!-- add -->
+                <div class="modal fade" id="addSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">添加信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/messagesendall"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="mSendmId" th:value="${session.USER.aId}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mTitle" class="col-xs-3 control-label">标题：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mTitle" name="mTitle">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mContent" class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mContent" name="mContent">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label for="mMark" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mMark" name="mMark">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green">保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="addSource2" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">添加信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/messagesendone"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="mSendmId" th:value="${session.USER.aId}">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mTitle" class="col-xs-3 control-label">标题：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       name="mTitle">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="mContent" class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                        name="mContent">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label  class="col-xs-3 control-label">选择用户：</label>
+                                            <div class="col-xs-8 ">
+                                                <select class="form-control form-control-sm"  style="margin: 5px;"  name="mBsendId">
+                                                    <option th:each="a: ${SUSER}" th:if="${a.uId} ne 10000"th:text="${a.uName}" th:value="${a.uId}" name="mBsendId"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label for="mMark" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="mMark" name="mMark">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green">保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+<script>
+    //全选函数
+    function setAll() {
+        var loves = document.getElementsByName("love");
+        for (var i = 0; i < loves.length; i++) {
+            loves[i].checked = true;
+        }
+    }
+
+    //全不选函数
+    function setNo() {
+        var loves = document.getElementsByName("love");
+        for (var i = 0; i < loves.length; i++) {
+            loves[i].checked = false;
+        }
+    }
+
+    function shanchu() {
+
+        $.post("/delmesssage",$("form").serialize(),function () {
+            location.reload();
+        })
+    }
+</script>
+
+</html>

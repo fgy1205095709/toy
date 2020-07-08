@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >用户申请订单管理</div>
+
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>订单号</th>
+                                        <th>创意id</th>
+                                        <th>标题</th>
+                                        <th>用户名</th>
+                                        <th>手机号</th>
+                                        <th>审核人</th>
+                                        <th>审核结果</th>
+                                        <th>交易金额</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${list}">
+                                        <td th:text="${a.oId}"></td>
+
+                                        <td th:text="${a.toyUser.uUsername}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:150px"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.toyCreateidea.ciTitle}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:150px" class="text-danger">
+                                        </td>
+                                        <td th:text="${a.toyUser.uTruename}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.oUserphone}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+                                            <div th:if="${a.toyAdmin.aId} eq 9999" th:text="未审核"  class="text-danger"></div>
+                                            <div th:if="${a.toyAdmin.aId} ne 9999" th:text="${a.toyAdmin.aName}"></div>
+                                        </td>
+                                        <td  >
+                                            <div th:if="${a.oIf} eq 1" th:text="等待审核"></div>
+                                            <div th:if="${a.oIf} eq 2" th:text="审核通过"></div>
+                                            <div th:if="${a.oIf} eq 3" th:text="不予通过"  class="text-danger"></div>
+                                        </td>
+                                        <td  >
+                                            <div th:if="${a.oPrice} eq null" th:text="暂未达成交易"></div>
+                                            <div th:if="${a.oPrice} ne null" th:text="${a.oPrice}"></div>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource"
+                                                  th:if="${a.oIf} eq 1"  th:id="${a.oId}"  onclick="updateorderchecker(this)">审核</button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">您正在审核订单信息：</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/checkorder"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" name="oId"  id="oId">
+                                                <input type="hidden" name="oOne"  th:value="${session.USER.aId}">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="oIf">
+                                            <label class="col-sm-3 col-form-label">审核结果：</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="oIf" value="2" checked="" th:text="通过">
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="oIf" value="3" th:text="不通过">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="oMark" class="col-xs-3 control-label">原因：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="oMark" name="oMark">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div th:replace="adHead::password" ></div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+    <style type="text/css">
+        .rounded-legend.legend-vertical ul li {
+            margin-top: 1rem;
+            width: 46%;
+            display: inline-block;
+            margin: 5px;
+        }
+
+        .grid-margin, .purchase-popup {
+            margin-bottom: 2.5rem;
+            width: 695px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head"></div>
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left"></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-danger card-img-holder text-white">
+                            <div class="card-body">
+                                <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                                <h4 class="font-weight-normal mb-3">网站总访问量
+                                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
+                                </h4>
+                                <h2 class="mb-5" th:text="${countnet}"></h2>
+                                <h6 class="card-text">同比增长 60%</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-info card-img-holder text-white">
+                            <div class="card-body" href="/contentpage">
+                                <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                                <h4 class="font-weight-normal mb-3">总文章数
+                                    <i class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                                </h4>
+                                <h2 class="mb-5" th:text="${countidea}">45,6334</h2>
+                                <h6 class="card-text">同比增长 50%</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 stretch-card grid-margin">
+                        <div class="card bg-gradient-success card-img-holder text-white">
+                            <div class="card-body" href="/usershow">
+                                <img src="/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image"/>
+                                <h4 class="font-weight-normal mb-3">用户总数
+                                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
+                                </h4>
+                                <h2 class="mb-5" th:text="${countuser}">95,5741</h2>
+                                <h6 class="card-text">同比增长 5%</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">用户统计(设计师统计)</h4>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>用户姓名</th>
+                                            <th>用户个人描述</th>
+                                            <th>用户创意数目</th>
+                                            <th>用户达成订单数目</th>
+                                            <th>用户手机号</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr style="color: rgba(45,76,138,0.98);" th:each="a: ${list}">
+                                            <td th:text="${a.uname}"> 1</td>
+                                            <td th:text="${a.udescribe}">Herman Beck</td>
+                                            <td th:text="${a.userideacount}">May 15, 2015</td>
+                                            <td th:text="${a.userordercount}">May 15, 2015</td>
+                                            <td th:text="${a.uphone}">May 15, 2015</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- updatepassword  -->
+            <div th:replace="adHead::password"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom js for this page-->
+
+
+<script src="/vendors/js/vendor.bundle.base.js"></script>
+<script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+<script src="/js/off-canvas.js"></script>
+<script src="/js/misc.js"></script>
+<script src="/js/dashboard.js"></script>
+
+<script type="text/javascript">
+    function s() {
+        $.get("http://www.hpwyx.xyz/solr", function () {
+
+            alert("导入成功")
+        });
+    }
+</script>
+</body>
+
+</html>

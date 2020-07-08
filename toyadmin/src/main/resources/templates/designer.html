@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >设计师管理
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>用户id</th>
+                                        <th>手机号</th>
+                                        <th>账号名</th>
+                                        <th>昵称</th>
+                                        <th>真实姓名</th>
+                                        <th>作品数</th>
+                                        <th>等级</th>
+                                        <th>备注</th>
+                                        <th>状态</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${DESIGNER}" >
+                                        <td th:text="${a.dId}" style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:15px"></td>
+                                        <td th:text="${a.toyUser.uPhone}"  style="text-overflow:ellipsis;white-space:nowrap;overflow: hidden;max-width:50px">推荐</td>
+                                        <td th:text="${a.toyUser.uUsername}" > </td>
+                                        <td th:text="${a.toyUser.uName}">推荐</td>
+                                        <td th:text="${a.dTruename}">推荐</td>
+                                        <td th:text="${a.dWorkcount}"> </td>
+                                        <td >
+                                            <span th:if="${a.dGrade} eq 1" th:text="金牌设计师"></span>
+                                            <span th:if="${a.dGrade} eq 2" th:text="银牌设计师"></span>
+                                            <span th:if="${a.dGrade} eq 3" th:text="铜牌设计师"></span>
+                                            <span th:if="${a.dGrade} eq 4" th:text="普通设计师"></span>
+
+                                        </td>
+                                        <td th:text="${a.dMark}" class="text-danger">  <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+                                            <span th:if="${a.dState} eq 1" th:text="正常"></span>
+                                            <span th:if="${a.dState} eq 2" th:text="已封号"></span>
+                                        </td>
+                                        <td>
+                                            <a th:href="@{'/usersearchid?uId='+${a.toyUser.uId}}"  th:id="${a.toyUser.uId}"> <button  type="button" class="btn btn-gradient-warning btn-sm" th:id="${a.toyUser.uId}">查看</button></a>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource" th:id="${a.dId}"
+                                                    onclick="updategrade(this)">更改</button>
+                                            <button type="button" class="btn btn-gradient-danger btn-sm" data-toggle="modal" data-target="#addSource"
+                                                    th:id="${a.dUId}"
+                                                    onclick="sendmessage(this)">发送消息</button>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px; text-decoration: none;" href="/showdesigner?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showdesigner?pageNum='+${pageNum-1}}">上一页</a>
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px; text-decoration: none;" th:href="@{'/showdesigner?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;text-decoration: none;" th:href="@{'/showdesigner?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="addSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">发送信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/sendmdesigner"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="mBsendId" id="userid">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label  class="col-xs-3 control-label">标题：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       name="mTitle" >
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label  class="col-xs-3 control-label">内容：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       name="mContent">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label  class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       name="mMark">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green">发 送</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:replace="adHead::password" ></div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">修改信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/updateGrade"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="dId" id="dId">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="dGrade">
+                                            <label class="col-sm-3 col-form-label">状 态</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="dGrade" value="1" th:text="金牌设计师">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="dGrade" value="2" th:text="银牌设计师">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="dGrade" value="3" th:text="铜牌设计师">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="dGrade" value="4" checked=""  th:text="普通设计师">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>

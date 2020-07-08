@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.admin.admin.mapper.ToyReportMapper" >
+  <resultMap id="BaseResultMap" type="com.admin.admin.pojo.ToyReport" >
+    <id column="re_id" property="reId" jdbcType="INTEGER" />
+    <result column="re_userid" property="reUserid" jdbcType="INTEGER" />
+    <result column="re_buserid" property="reBuserid" jdbcType="INTEGER" />
+    <result column="re_ideaid" property="reIdeaid" jdbcType="INTEGER" />
+    <result column="re_ursid" property="reUrsid" jdbcType="INTEGER" />
+    <result column="re_type" property="reType" jdbcType="VARCHAR" />
+    <result column="re_typetwo" property="reTypetwo" jdbcType="VARCHAR" />
+    <result column="re_content" property="reContent" jdbcType="VARCHAR" />
+    <result column="re_time" property="reTime" jdbcType="TIMESTAMP" />
+    <result column="re_if" property="reIf" jdbcType="INTEGER" />
+    <result column="re_adminid" property="reAdminid" jdbcType="INTEGER" />
+    <result column="re_isitvalid" property="reIsitvalid" jdbcType="INTEGER" />
+    <result column="re_result" property="reResult" jdbcType="VARCHAR" />
+    <result column="re_reason" property="reReason" jdbcType="VARCHAR" />
+    <result column="re_resulttime" property="reResulttime" jdbcType="TIMESTAMP" />
+    <result column="re_one" property="reOne" jdbcType="VARCHAR" />
+    <result column="re_two" property="reTwo" jdbcType="VARCHAR" />
+    <result column="re_three" property="reThree" jdbcType="VARCHAR" />
+    <association property="toyAdmin" javaType="com.admin.admin.pojo.ToyAdmin">
+      <id column="a_id" property="aId" jdbcType="INTEGER"/>
+      <result column="a_username" property="aUsername" jdbcType="VARCHAR"/>
+      <result column="a_name" property="aName" jdbcType="VARCHAR"/>
+    </association>
+    <association property="toyUser" javaType="com.admin.admin.pojo.ToyUser">
+      <id column="u_id" property="uId" jdbcType="INTEGER"/>
+      <result column="u_username" property="uUsername" jdbcType="VARCHAR"/>
+      <result column="u_name" property="uName" jdbcType="VARCHAR"/>
+      <result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    re_id, re_userid, re_buserid, re_ideaid, re_ursid, re_type, re_typetwo, re_content, 
+    re_time, re_if, re_adminid, re_isitvalid, re_result, re_reason, re_resulttime, re_one, 
+    re_two, re_three
+  </sql>
+  <sql id="Base_Column_List2" >
+    re.re_id, re.re_userid,  re.re_buserid,re.re_ideaid,re.re_ursid, re.re_type, re.re_typetwo, re.re_content,
+    re.re_time, re.re_if, re.re_adminid, re.re_isitvalid, re.re_result, re.re_reason, re.re_resulttime, re.re_one,
+    re.re_two, re.re_three,us.u_id,us.u_username,us.u_name,us.u_truename
+  </sql>
+  <sql id="Base_Column_List3" >
+    re_id, re_userid, re_buserid, re_ideaid, re_ursid, re_type, re_typetwo, re_content,
+    re_time, re_if, re_adminid, re_isitvalid, re_result, re_reason, re_resulttime, re_one,
+    re_two, re_three,u_id,u_username,u_name,u_truename,a_id,a_username,a_name
+  </sql>
+  <select id="selectall" resultMap="BaseResultMap"  >
+SELECT a.*,b.u_username 被举报人 from
+(select re.re_id, re.re_userid,  re.re_buserid,re.re_ideaid,re.re_ursid, re.re_type, re.re_typetwo, re.re_content,
+    re.re_time, re.re_if, re.re_adminid, re.re_isitvalid, re.re_result, re.re_reason, re.re_resulttime, re.re_one,
+    re.re_two, re.re_three,us.u_id,us.u_username,us.u_name,us.u_truename
+from toy_report re,toy_user us where re.re_userid=us.u_id) a,
+(select      re.re_id, re.re_userid,  re.re_buserid,re.re_ideaid,re.re_ursid, re.re_type, re.re_typetwo, re.re_content,
+    re.re_time, re.re_if, re.re_adminid, re.re_isitvalid, re.re_result, re.re_reason, re.re_resulttime, re.re_one,
+    re.re_two, re.re_three,us.u_id,us.u_username,us.u_name,us.u_truename
+from toy_report re,toy_user us where re.re_buserid=us.u_id) b
+where a.re_userid=b.re_userid and b.re_buserid=a.re_buserid
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from toy_report where re_type='举报创意' or re_type='举报需求'
+  </select>
+  <select id="selectuser" resultMap="BaseResultMap"  >
+
+select re.re_id, re.re_userid,  re.re_buserid,re.re_ideaid,re.re_ursid, re.re_type, re.re_typetwo, re.re_content,
+    re.re_time, re.re_if, re.re_adminid, re.re_isitvalid, re.re_result, re.re_reason, re.re_resulttime, re.re_one,
+    re.re_two, re.re_three,us.u_id,us.u_username,us.u_name,us.u_truename
+from toy_report re,toy_user us where re.re_userid=us.u_id
+  </select>
+  <select id="selectbuser" resultMap="BaseResultMap"  >
+
+select re.re_id, re.re_userid,  re.re_buserid,re.re_ideaid,re.re_ursid, re.re_type, re.re_typetwo, re.re_content,
+    re.re_time, re.re_if, re.re_adminid, re.re_isitvalid, re.re_result, re.re_reason, re.re_resulttime, re.re_one,
+    re.re_two, re.re_three,us.u_id,us.u_username,us.u_name,us.u_truename
+from toy_report re,toy_user us where re.re_buserid=us.u_id
+  </select>
+  <select id="countall" resultType="java.lang.Integer">
+    select
+    count(1)
+    from toy_report where re_type='举报创意' or re_type='举报需求'
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from toy_report
+    where re_id = #{reId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from toy_report
+    where re_id = #{reId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.admin.admin.pojo.ToyReport" >
+    insert into toy_report (re_id, re_userid, re_buserid, 
+      re_ideaid, re_ursid, re_type, 
+      re_typetwo, re_content, re_time, 
+      re_if, re_adminid, re_isitvalid, 
+      re_result, re_reason, re_resulttime, 
+      re_one, re_two, re_three
+      )
+    values (#{reId,jdbcType=INTEGER}, #{reUserid,jdbcType=INTEGER}, #{reBuserid,jdbcType=INTEGER}, 
+      #{reIdeaid,jdbcType=INTEGER}, #{reUrsid,jdbcType=INTEGER}, #{reType,jdbcType=VARCHAR}, 
+      #{reTypetwo,jdbcType=VARCHAR}, #{reContent,jdbcType=VARCHAR}, #{reTime,jdbcType=TIMESTAMP}, 
+      #{reIf,jdbcType=INTEGER}, #{reAdminid,jdbcType=INTEGER}, #{reIsitvalid,jdbcType=INTEGER}, 
+      #{reResult,jdbcType=VARCHAR}, #{reReason,jdbcType=VARCHAR}, #{reResulttime,jdbcType=TIMESTAMP}, 
+      #{reOne,jdbcType=VARCHAR}, #{reTwo,jdbcType=VARCHAR}, #{reThree,jdbcType=VARCHAR}
+      )
+  </insert>
+
+  <update id="updateByPrimaryKey" parameterType="com.admin.admin.pojo.ToyReport">
+    update toy_report
+    set
+      re_if = #{reIf,jdbcType=INTEGER},
+      re_adminid = #{reAdminid,jdbcType=INTEGER},
+      re_isitvalid = #{reIsitvalid,jdbcType=INTEGER},
+      re_result = #{reResult,jdbcType=VARCHAR},
+      re_reason = #{reReason,jdbcType=VARCHAR},
+      re_resulttime = #{reResulttime,jdbcType=TIMESTAMP}
+
+    where re_id = #{reId,jdbcType=INTEGER}
+  </update>
+  <select id="countif" resultType="int">
+    select   count(*)
+    from toy_report where re_if=1
+  </select>
+</mapper>

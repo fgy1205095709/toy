@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- endinject -->
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-title" style="margin-right: 14%" >分类管理
+                                </div>
+
+                                <div>
+
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                    <!-- 表头  -->
+                                    <tr>
+                                        <th>大名称id</th>
+                                        <th>小分类名称</th>
+                                        <th>分类描述</th>
+                                        <th>创意个数</th>
+                                        <th>创意浏览量</th>
+                                        <th>状态</th>
+                                        <th>备注</th>
+                                        <th>操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- 循环 -->
+                                    <tr th:each="a: ${Toytype}">
+                                        <td >
+                                            <div th:if="${a.cBigid} eq 1" th:text="大类：玩具种类"></div>
+                                            <div th:if="${a.cBigid} eq 2" th:text="大类：年龄段"></div>
+                                            <div th:if="${a.cBigid} eq 3" th:text="大类：玩具材质"></div>
+                                            <div th:if="${a.cBigid} eq 4" th:text="大类：玩具功能"></div>
+                                        </td>
+                                        <td th:text="${a.cName}" class="text-danger"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.cDescribe}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.cCount}" > 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td th:text="${a.cScan}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td  >
+                                            <div th:if="${a.cState} eq 1" th:text="正常"></div>
+                                            <div th:if="${a.cState} eq 2" th:text="待上线"></div>
+                                        </td>
+                                        <td th:text="${a.cMark}"> 12461 <i
+                                                class="mdi mdi-arrow-up"></i></td>
+                                        <td>
+                                            <button type="button" class="btn btn-gradient-primary btn-sm" data-toggle="modal" data-target="#changeSource"
+                                                    th:id="${a.cId}" th:data-name="${a.cName}" th:data-describe="${a.cDescribe}" th:data-bigid="${a.cBigid}"
+                                                    th:data-scan="${a.cScan}" th:data-state="${a.cState}" th:data-count="${a.cCount}"
+                                                    th:data-mark="${a.cMark}" onclick="updatetype(this)">更改</button>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <div style="text-align: center;margin-bottom: 20px;">
+                                <a style="margin-right: 20px;
+    text-decoration: none;" href="/showclassification?pageNum=1">首页</a>
+
+                                <a th:if="${pageNum} > 1" style="margin-right: 20px;
+    text-decoration: none;" th:href="@{'/showclassification?pageNum='+${pageNum-1}}">上一页</a>
+                                <span th:text="${pageNum}"></span><span>/</span><span th:text="${allNum}"> </span>
+
+                                <a  th:if="${pageNum} != ${allNum}" style="margin-right: 20px;
+    text-decoration: none;" th:href="@{'/showclassification?pageNum='+${pageNum+1}}">下一页</a>
+
+                                <a  style="margin-right: 20px;
+    text-decoration: none;" th:href="@{'/showclassification?pageNum='+${allNum}}">末页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">修改信息</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/updatetype"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       name="cId"  id="cId">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <label for="cBigid" class="col-xs-3 control-label">大类id：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cBigid" name="cBigid" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cName" class="col-xs-3 control-label">类型名称：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cName" name="cName">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cDescribe" class="col-xs-3 control-label">描述：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cDescribe" name="cDescribe">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="cState">
+                                            <label class="col-sm-3 col-form-label">状 态</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="cState" value="1" checked="" th:text="正常">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="cState" value="2" th:text="待上线">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cMark" class="col-xs-3 control-label">备注：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cMark" name="cMark">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cCount" class="col-xs-3 control-label">创意数目：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cCount" disabled="disabled">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="cScan" class="col-xs-3 control-label">创意浏览量：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="cScan" disabled="disabled">
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div th:replace="adHead::password" ></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>ToyCreateDesign后台管理</title>
+    <link rel="stylesheet" href="/vendors/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/node_modules/jqvmap/dist/jqvmap.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/images/favicon.png"/>
+</head>
+
+<body>
+<div class="container-scroller">
+    <!-- 头部 -->
+    <div th:replace="adHead::head" ></div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- 左侧 -->
+        <div th:replace="adHead::left" ></div>
+
+        <!-- updatepassword  -->
+        <div th:replace="adHead::password" ></div>
+        <!-- 主体 -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+
+                <div class="row">
+
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+
+                                <div class="note-top">
+                                    举报标题：<span class="title" th:text="${FINDBYREPORTID.reTypetwo}"></span>
+                                </div>
+                                <div class="content">
+                                    举报内容：<span id="div" th:text="${FINDBYREPORTID.reContent}"></span>
+                                </div>
+                                <div class="content">
+                                    举报人姓名：<span id="div" th:text="${FINDBYREPORTID.username}"></span>
+                                </div>
+                                <div class="content">
+                                    被举报人姓名：<span id="div" th:text="${FINDBYREPORTID.busername}"></span>
+                                </div>
+                                <div>发出时间：
+                                    <span th:text="${#dates.format(FINDBYREPORTID.reTime,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div>处理时间：
+                                    <span th:text="${#dates.format(FINDBYREPORTID.reResulttime,'yyyy-MM-dd')}"></span>
+                                </div>
+                                <div class="content">
+                                    是否处理：<span  th:if="${FINDBYREPORTID.reIsitvalid} eq 1" th:text="举报成功"></span>
+                                    <span  th:if="${FINDBYREPORTID.reIsitvalid} eq 2" th:text="举报失败"></span>
+                                    <span  th:if="${FINDBYREPORTID.reIsitvalid} eq 3" th:text="举报未处理"></span>
+                                </div>
+                                <div class="content" th:if="${session.USER.aLevel} eq 1">
+                                    处理人：<span th:text="${FINDBYREPORTID.toyAdmin.aName}"></span>
+                                </div>
+                                <button th:if="${FINDBYREPORTID.reIf} eq 1" type="button" class="btn btn-gradient-danger btn-sm" data-toggle="modal"data-target="#changeSource"
+                                        th:id="${FINDBYREPORTID.reId}" th:userid="${FINDBYREPORTID.userid}" th:buserid="${FINDBYREPORTID.buserid}" onclick="updatereport(this)">处理举报</button>
+                                <button type="button" class="btn btn-gradient-warning btn-sm"><a href="#" onclick="javascript :history.back(-1);">返回</a></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- updatepassword  -->
+                <div th:replace="adHead::password" ></div>
+                <div class="modal fade" id="changeSource" role="dialog"
+                     aria-labelledby="gridSystemModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="gridSystemModalLabel">处理举报：</h4>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="container-fluid">
+                                    <form class="form-horizontal" action="/reportupdate"
+                                          method="post">
+                                        <div class="form-group ">
+                                            <div class="col-xs-8 ">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       id="reId" name="reId">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       id="userid" name="userid">
+                                                <input type="hidden" class="form-control input-sm duiqi"
+                                                       id="buserid" name="buserid">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row" name="reIsitvalid">
+                                            <label class="col-sm-3 col-form-label">举报是否成功</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio"  name="reIsitvalid" value="1" checked="" th:text="成功">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <div class="form-check">
+                                                    <label class="form-check-label">
+                                                        <input type="radio" name="reIsitvalid" value="2" th:text="失败">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reResult" class="col-xs-3 control-label">处理结果：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reResult" name="reResult">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reOne" class="col-xs-3 control-label">处理结果：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reOne" name="reOne">
+                                            </div>
+                                        </div>
+                                        <div class="form-group ">
+                                            <label for="reReason" class="col-xs-3 control-label">处理原因：</label>
+                                            <div class="col-xs-8 ">
+                                                <input type="text" class="form-control input-sm duiqi"
+                                                       id="reReason" name="reReason">
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-xs btn-xs btn-white"
+                                                    data-dismiss="modal">取 消</button>
+                                            <button type="submit" class="btn btn-xs btn-xs btn-green" >保
+                                                存</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script src="/js/jquery-1.3.2.js"></script>
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <script src="/vendors/js/vendor.bundle.addons.js"></script>
+
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/misc.js"></script>
+    <script src="/js/bootstrap.js"></script>
+    <script src="/js/main.js"></script>
+</div>
+</body>
+
+</html>
